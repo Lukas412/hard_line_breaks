@@ -19,5 +19,5 @@ fn parse_md_paragraphs(input: &str) -> IResult<&str, Vec<&str>> {
 }
 
 fn parse_md_paragraph(input: &str) -> (&str, &str) {
-    take_until::<&str, &str, Error<&str>>("\n\n")(input).unwrap_or(("", input))
+    take_until::<_, _, Error<&str>>("\n\n")(input).unwrap_or(("", input))
 }
