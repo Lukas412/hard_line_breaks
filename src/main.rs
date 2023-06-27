@@ -1,7 +1,9 @@
 use {
     nom::{
-        bytes::complete::take_until, character::complete::newline, error::Error,
-        multi::separated_list0, sequence::tuple, IResult,
+        bytes::complete::{tag, take_until},
+        error::Error,
+        multi::separated_list0,
+        IResult,
     },
     std::fs::read_to_string,
 };
@@ -13,9 +15,7 @@ fn main() {
 }
 
 fn parse_md_paragraphs(input: &str) -> IResult<&str, Vec<&str>> {
-    separated_list0(tuple((newline, newline)), |input| {
-        Ok(parse_md_paragraph(input))
-    })(input.trim())
+    separated_list0(tag("\n\n"), |input| Ok(parse_md_paragraph(input)))(input.trim())
 }
 
 fn parse_md_paragraph(input: &str) -> (&str, &str) {
